@@ -1,0 +1,26 @@
+[package]
+name = "overhang-app"
+version = "0.1.0"
+edition = "2021"
+
+[features]
+default = ["gpui-ui"]
+gpui-ui = ["dep:gpui", "dep:gpui_platform"]
+# Interim egui build, kept compilable: cargo run --no-default-features --features egui-fallback
+egui-fallback = ["dep:eframe", "dep:egui"]
+
+[dependencies]
+gpui = { git = "https://github.com/zed-industries/zed", package = "gpui", rev = "7a3a82325afb5e5188864be39af75ee30a4eebf6", optional = true }
+gpui_platform = { git = "https://github.com/zed-industries/zed", package = "gpui_platform", rev = "7a3a82325afb5e5188864be39af75ee30a4eebf6", features = ["font-kit"], optional = true }
+eframe = { version = "0.31", optional = true }
+egui = { version = "0.31", optional = true }
+tokio = { version = "1", features = ["rt-multi-thread", "time", "macros"] }
+reqwest = { version = "0.12", features = ["json", "stream"] }
+tokio-tungstenite = "0.26"
+futures-util = "0.3"
+futures-channel = "0.3"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+
+[profile.dev]
+debug = 0

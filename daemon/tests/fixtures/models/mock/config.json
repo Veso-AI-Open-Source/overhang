@@ -1,0 +1,4 @@
+{
+  "model_type": "mock",
+  "architectures": ["MockForCausalLM"]
+}

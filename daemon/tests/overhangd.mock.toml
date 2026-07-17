@@ -1,0 +1,7 @@
+# overhangd test config: run against the python mock engine.
+# Usage (from daemon/): cargo run -- --config tests/overhangd.mock.toml
+engine_cmd = "python3 tests/mock_engine.py"
+model_dir = "tests/fixtures/models/mock"
+tokenizer = "tests/fixtures/tokenizer.json"
+qcache = 96
+port = 11544

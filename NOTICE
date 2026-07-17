@@ -1,0 +1,7 @@
+overhang
+Copyright 2026 Veso AI
+
+This product includes software developed as part of the colibrì project
+(https://github.com/JustVugg/colibri), Copyright JustVugg, licensed under
+the Apache License, Version 2.0. Derived files: engines/olmoe.c,
+include/st.h, include/json.h, include/compat.h, include/tier.h.
