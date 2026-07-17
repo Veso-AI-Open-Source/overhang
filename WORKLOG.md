@@ -1,5 +1,25 @@
 # Worklog
 
+## 2026-07-17 — OPEN SOURCED: github.com/Veso-AI-Open-Source/overhang
+
+- Published under the Veso AI open-source org (alongside
+  knowledge-as-dynamics) with a fresh single-commit history.
+- Pre-publication fixes: `.gitignore`'s broad `models/` pattern was silently
+  excluding `daemon/tests/fixtures/models/mock/` (fresh clones would fail the
+  integration tests) — now root-anchored `/models/`, fixture committed,
+  gemma/gemma-metal binaries ignored. README refreshed: Gemma 4 26B headline
+  numbers, daemon+app in quick-start/layout, all three oracle targets, and a
+  "How it's built" section on the agentic AI coding methodology.
+- Verified by fresh clone from GitHub: builds clean, `check-oracle` and
+  `check-oracle-gemma` both 20/20 EXACT, fixtures present.
+- App UX same day: chat Clear button (hidden when empty, guarded while
+  streaming); tok/s readouts fixed — the SSE role-priming chunk counted as
+  "1 token in ~1ms" showing a bogus 1000.0 tok/s; now running averages from
+  the first real token at both sources (daemon /events + app SSE), and
+  pending states show "--.- tok/s".
+- The pre-existing VesoAi/overhang repo (pushed 07-14, old history) is still
+  up — archive/delete pending a decision.
+
 ## 2026-07-17 (later) — decode 3.3 → 7.5 tok/s: the memory-compressor discovery
 
 **Status: gemma 26B decodes at ~5.5–7.5 tok/s warm through the daemon
