@@ -25,6 +25,13 @@
   models whose weights exceed RAM even quantized. Native ternary C engine
   (dense-qwen path + Q1_0_g128-style packed kernels) stays the ROADMAP-shaped
   follow-up; the shim is the taste-test that justified it.
+- **Shim overhead measured: none.** Same model, same machine, head-to-head —
+  raw `mlx_lm generate`: 11.0 tok/s, 7.84 GB peak; through overhangd + shim +
+  app: 11.9 tok/s, 7.8 GB. Within run-to-run noise (~40-byte JSON line per
+  token over a pipe vs ~85 ms of MLX compute). Compute is 100% the MLX
+  pipeline (Metal kernels on the packed 2-bit weights); overhang contributes
+  tokenization, chat template, warm-append, API and app. The benchmark to
+  beat if/when the native ternary C engine lands: **11–12 tok/s at 2 bits**.
 
 ## 2026-07-17 — OPEN SOURCED: github.com/Veso-AI-Open-Source/overhang
 
