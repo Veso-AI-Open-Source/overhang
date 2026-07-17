@@ -1,5 +1,31 @@
 # Worklog
 
+## 2026-07-17 (night) — PrismML Ternary Bonsai 27B served via an MLX shim engine
+
+**Status: a 1-bit-class 27B chats through overhangd + app at ~12 tok/s decode,
+~7.8 GB footprint, 0.5 s warm prefill.**
+
+- New `engines/bonsai_mlx.py`: a PROTOCOL.md v1 shim around mlx_lm — the
+  daemon can host any MLX-quantized model with no C engine. Daemon still owns
+  tokenization/templating (Bonsai is qwen3_5 → ChatML ✓); shim keeps the MLX
+  prompt cache across requests, so daemon warm-append works (reset:false
+  appends ids). Wired via `[engines] qwen3_5 = "../engines/bonsai_mlx.py"`.
+- Model: prism-ml/Ternary-Bonsai-27B-mlx-2bit (Apache-2.0), natively-TRAINED
+  ternary (Q1-class, group 128) on the dense qwen3_5 architecture — 7.9 GB on
+  disk, runs on stock mlx (bits=2). Container: `colibri/models/bonsai27_ternary`.
+- The strict 1-bit build (bonsai27_1bit, 5.1 GB, also downloaded) needs
+  PrismML's MLX fork compiled from source — blocked on this Mac (no Metal
+  toolchain); no wheels published. Ternary is their own "quality operating
+  point (~95% of FP16)".
+- Measured through the daemon: 138 tok in 11.6 s decode (**11.9 tok/s**),
+  warm prefill 0.507 s, phys_footprint 7.8 GB. Correct answers; emits an
+  empty `<think></think>` block (qwen thinking template) — cosmetic.
+- Perspective vs our engines: a natively-ternary DENSE 27B fully resident in
+  8 GB beats streaming for this size class; streaming remains the play for
+  models whose weights exceed RAM even quantized. Native ternary C engine
+  (dense-qwen path + Q1_0_g128-style packed kernels) stays the ROADMAP-shaped
+  follow-up; the shim is the taste-test that justified it.
+
 ## 2026-07-17 — OPEN SOURCED: github.com/Veso-AI-Open-Source/overhang
 
 - Published under the Veso AI open-source org (alongside
